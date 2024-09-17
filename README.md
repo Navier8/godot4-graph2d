@@ -14,6 +14,10 @@ This repository contains the add-on and examples.
 - Works on desktop platforms and HTML5 (others target were not tested).
 - Documentation included with the plugin.
 
+**Added**
+- Coordinates have a new export variable for steps.
+- Choose whether or not to show numbers with decimals.
+
 ## Usage
 
 ### Single plot
