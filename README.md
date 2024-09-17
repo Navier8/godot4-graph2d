@@ -51,7 +51,7 @@ You can add multiple curves to the graph.
 
 The graphic can be customized with several properties.
 
-![Alt text](screenshots/graph2d_properties.png)
+![Alt text](screenshots/image_2024-09-17_144825739.png)
 
 You can view on the top right of the graphic the coordinates of the plot pointed by the mouse cursor.
 
