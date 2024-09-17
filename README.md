@@ -4,6 +4,8 @@
 
 This repository contains the add-on and examples.
 
+Note: I made this to work for myself for Godot 4.1.4
+
 ## Features
 
 - Display several plots on the same graph.
@@ -14,9 +16,10 @@ This repository contains the add-on and examples.
 - Works on desktop platforms and HTML5 (others target were not tested).
 - Documentation included with the plugin.
 
-**Added**
+**Changed**
 - Coordinates have a new export variable for steps.
 - Choose whether or not to show numbers with decimals.
+-- Uses different examples.
 
 ## Usage
 
@@ -28,7 +31,7 @@ This repository contains the add-on and examples.
 ![Alt text](screenshots/single_plot_2Dview.png)
 
 - Create a new plot using the method `Graph2D.add_plot_item()` from your script. The arguments are in order the name of the plot, its color and finally the thickness of the line.
-    - Note: This method will return an `Graph2D.PlotItem` object which will then be used to reference the plot and update its points.
+	- Note: This method will return an `Graph2D.PlotItem` object which will then be used to reference the plot and update its points.
 
 ```gdscript
 func _ready() -> void:

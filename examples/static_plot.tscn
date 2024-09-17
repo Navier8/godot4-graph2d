@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwlo46bc6es1d"]
+
+[ext_resource type="Script" path="res://examples/static_plot.gd" id="1_tigge"]
+[ext_resource type="Script" path="res://addons/graph_2d/graph_2d.gd" id="2_gwioq"]
+
+[node name="static_plot" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tigge")
+points = [Vector2(0, 0), Vector2(2, 3), Vector2(3, 6), Vector2(4, 4), Vector2(5, 3)]
+
+[node name="Graph2D" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+script = ExtResource("2_gwioq")
+coordinate_decimal_snap = 0.1
+x_max = 6.0
+show_x_decimals = false
+y_max = 10.0
+show_y_decimals = false

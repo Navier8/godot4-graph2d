@@ -9,6 +9,17 @@ extends Control
 
 #region Export variables
 
+@export_group("Coordinates")
+## Snap Coordinates, recommended to set like 0.1, 0.01, 0.001, 0.0001
+@export_range(0, 1) var coordinate_decimal_snap: float = 0.01:
+	set(value):
+		coordinate_decimal_snap = value
+## If you want to show coordinates
+@export var show_coordinates: bool = true:
+	set(value):
+		show_coordinates = value
+		_update_graph()
+
 @export_group("X Axis")
 ## Minimun value on X-axis
 @export var x_min: float = 0.0:
@@ -41,11 +52,17 @@ extends Control
 	set(value):
 		show_x_numbers = value
 		_update_graph()
+## Shows decimals on X-axis
+@export var show_x_decimals: bool = true:
+	set(value):
+		show_x_decimals = value
+		_update_graph()
 ## Shows line on the X-axis
 @export var show_horizontal_line: bool = true:
 	set(value):
 		show_horizontal_line = value
 		_update_graph()
+
 
 @export_group("Y Axis")
 ## Minimun value on Y-axis
@@ -82,6 +99,11 @@ extends Control
 @export var show_y_numbers: bool = true:
 	set(value):
 		show_y_numbers = value
+		_update_graph()
+## Shows decimals on X-axis
+@export var show_y_decimals: bool = true:
+	set(value):
+		show_y_decimals = value
 		_update_graph()
 ## Shows line of the Y-axis
 @export var show_vertical_line: bool = true:
@@ -187,10 +209,10 @@ func _input(event: InputEvent) -> void:
 		if plot_rect.has_point(get_node("PlotArea").get_local_mouse_position()):
 			var pos: Vector2i = get_node("PlotArea").get_local_mouse_position()
 			var point = _pixel_to_coordinate(pos)
-			get_node("PlotArea/Coordinate").text = "(%.3f, %.3f)" % [point.x, point.y]
+			get_node("PlotArea/Coordinate").text = str([snappedf(point.x, coordinate_decimal_snap), snappedf(point.y, coordinate_decimal_snap)])
 
 ## Add plot to the graph and return an instance of plot.
-func add_plot_item(label = "", color = Color.WHITE, width = 1.0) -> PlotItem:
+func add_plot_item(label: String = "", color: Color = Color.WHITE, width: float = 1.0) -> PlotItem:
 	var plot = PlotItem.new(self, label, color, width)
 	_plots.append(plot)
 	_update_legend()
@@ -207,7 +229,7 @@ func remove_plot_item(plot: PlotItem):
 
 ## Remove all plots inside graph.
 func remove_all() -> void:
-	for p:PlotItem in _plots:
+	for p in _plots: # Original was for (p:PlotItem in _plots:)
 		remove_plot_item(p)
 
 ## Return number of plots
@@ -225,6 +247,12 @@ func _update_graph() -> void:
 	if get_node_or_null("Axis") == null: return
 	if get_node_or_null("Grid") == null: return
 	if get_node_or_null("PlotArea") == null: return
+	
+	# Update Coordinate text
+	if show_coordinates:
+		get_node("PlotArea/Coordinate").show()
+	else:
+		get_node("PlotArea/Coordinate").hide()
 	
 	# Update margins depend of axis labels
 	get_node("Axis").x_label = x_label
@@ -271,9 +299,17 @@ func _update_graph() -> void:
 	# Draw grid number
 	for n in range(vert_grad_number):
 		var grad: Array = []
+		var grad_text: String 
 		grad_px.y = _MARGIN_TOP + n * vert_grad_step_px
 		grad.append(grad_px)
-		var grad_text = "%0.1f" % (float(y_max) - n * float(y_axis_range)/(vert_grad_number-1))
+		var number: float = (float(y_max) - n * float(y_axis_range)/(vert_grad_number-1)) ## If any issues with decimals, move to snappify
+		if !show_y_decimals:
+			if step_decimals(number) == 0:
+				grad_text = str(number) 
+			else:
+				grad_text = ""
+		else:
+			grad_text = str(number)
 		grad.append(grad_text)
 		vert_grad.append(grad)
 		
@@ -298,9 +334,18 @@ func _update_graph() -> void:
 	
 	for n in range(hor_grad_number):
 		var grad: Array = []
+		var grad_text: String 
 		grad_px.x = margin_left + n * hor_grad_step_px
 		grad.append(grad_px)
-		var grad_text = "%0.1f" % (float(x_min) + n * float(x_axis_range)/(hor_grad_number-1))
+#		var grad_text: String = str((float(x_min) + n * float(x_axis_range)/(hor_grad_number-1))) ## If any issues with decimals, move to snappify
+		var number: float = (float(x_min) + n * float(x_axis_range)/(hor_grad_number-1)) ## If any issues with decimals, move to snappify
+		if !show_x_decimals:
+			if step_decimals(number) == 0:
+				grad_text = str(number) 
+			else:
+				grad_text = ""
+		else:
+			grad_text = str(number)
 		grad.append(grad_text)
 		hor_grad.append(grad)
 		
