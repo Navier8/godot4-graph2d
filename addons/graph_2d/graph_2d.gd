@@ -110,7 +110,7 @@ extends Control
 	set(value):
 		show_vertical_line = value
 		_update_graph()
-		
+
 @export_group("Background")
 ## Background color of graph
 @export var background_color = Color.BLACK:
