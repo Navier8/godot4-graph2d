@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2c7huikbbc5k"]
+
+[ext_resource type="Script" path="res://examples/update_plot.gd" id="1_ampwm"]
+[ext_resource type="Script" path="res://addons/graph_2d/graph_2d.gd" id="2_y8870"]
+
+[node name="UpdatePlot" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ampwm")
+
+[node name="Graph2D" type="Control" parent="."]
+layout_mode = 2
+script = ExtResource("2_y8870")
+x_max = 1.0
+y_min = -2.0
+y_max = 2.0
